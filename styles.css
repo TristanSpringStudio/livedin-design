@@ -1082,12 +1082,13 @@ nav.menu-open .nav-mobile {
 }
 
 .comparison-inner {
-    max-width: 1200px;
+    max-width: 800px;
     margin: 0 auto;
 }
 
 .comparison-header {
     margin-bottom: 48px;
+    text-align: center;
 }
 
 .comparison-label-row {
@@ -1109,6 +1110,7 @@ nav.menu-open .nav-mobile {
 /* Tabs */
 .comparison-tabs {
     display: flex;
+    justify-content: center;
     gap: 0;
     margin-bottom: 0;
     border-bottom: 1px solid var(--light-gray);
