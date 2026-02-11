@@ -292,6 +292,40 @@ nav.menu-open .nav-mobile {
     background: #2a2a28;
 }
 
+.hero-cta-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 14px 28px;
+    border-radius: 10px;
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 400;
+    font-family: inherit;
+    letter-spacing: 0.01em;
+    transition: transform 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
+}
+
+.hero .hero-cta-btn {
+    margin-top: 32px;
+    position: relative;
+    z-index: 2;
+}
+
+.hero-cta-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.2);
+    background: #2a2a28;
+}
+
+.hero-cta-icon {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+}
+
 /* ——— HERO DEVICE MOCKUPS ——— */
 .hero-device {
     position: absolute;
@@ -1457,6 +1491,41 @@ nav.menu-open .nav-mobile {
     max-width: 600px;
 }
 
+/* ——— BOOK SECTION (Cal.com embed) ——— */
+.book-section {
+    background: var(--ink);
+    padding: 100px 40px 80px;
+}
+
+.book-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.book-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 5vw, 52px);
+    font-weight: 400;
+    color: var(--cream);
+    line-height: 1.1;
+    margin-bottom: 12px;
+}
+
+.book-sub {
+    font-size: 15px;
+    font-weight: 300;
+    color: var(--warm-gray);
+    margin-bottom: 48px;
+    line-height: 1.6;
+}
+
+.book-embed {
+    min-height: 600px;
+    border-radius: 16px;
+    overflow: hidden;
+}
+
 /* ——— FOOTER ——— */
 .footer {
     background: var(--ink);
@@ -1634,6 +1703,11 @@ nav.menu-open .nav-mobile {
     .faq-question { font-size: clamp(18px, 4.5vw, 22px); padding: 22px 0; }
     .faq-icon { width: 34px; height: 34px; }
     .faq-icon svg { width: 14px; height: 14px; }
+
+    /* Book section responsive */
+    .book-section { padding: 60px 20px; }
+    .book-embed { min-height: 500px; }
+    .hero-cta-btn { padding: 12px 24px; font-size: 14px; }
 
     /* Footer responsive */
     .footer { padding: 60px 20px 40px; }
