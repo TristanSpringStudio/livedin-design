@@ -924,6 +924,157 @@ nav.menu-open .nav-mobile {
     color: var(--warm-gray);
 }
 
+/* ——— TOOLS SECTION ——— */
+.tools-section {
+    padding: 80px 40px;
+}
+
+.tools-inner {
+    max-width: 900px;
+    margin: 0 auto;
+    text-align: center;
+}
+
+.tools-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(28px, 4vw, 40px);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.2;
+    margin-bottom: 48px;
+}
+
+.tools-grid {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.tool-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    padding: 16px 20px;
+    border-radius: 10px;
+    opacity: 0.35;
+    transition: transform 0.3s, opacity 0.3s;
+    cursor: pointer;
+    background: none;
+    border: none;
+    font-family: inherit;
+}
+
+.tool-card:hover {
+    transform: translateY(-2px);
+    opacity: 0.7;
+}
+
+.tool-card.active {
+    opacity: 1;
+}
+
+.tool-card.active:hover {
+    transform: translateY(-2px);
+}
+
+.tool-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 36px;
+}
+
+.tool-icon img {
+    height: 32px;
+    width: 32px;
+    object-fit: contain;
+    filter: brightness(0);
+    transition: filter 0.3s;
+}
+
+.tool-card.active .tool-icon img {
+    filter: none;
+}
+
+.tool-name {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--ink);
+    white-space: nowrap;
+}
+
+/* Tool Quote Card */
+.tool-quote {
+    margin-top: 40px;
+    display: flex;
+    justify-content: center;
+}
+
+.tool-quote-inner {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--ink);
+    color: var(--cream);
+    padding: 24px 28px;
+    border-radius: 14px;
+    max-width: 520px;
+    text-align: left;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+}
+
+.tool-quote-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.tool-quote-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tool-quote-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.tool-quote-text {
+    font-size: 14px;
+    line-height: 1.6;
+    font-weight: 300;
+    margin: 0 0 8px;
+    color: rgba(240,237,230,0.9);
+    transition: opacity 0.25s ease;
+}
+
+.tool-quote-text.fading {
+    opacity: 0;
+}
+
+.tool-quote-text a {
+    color: var(--cream);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+}
+
+.tool-quote-text a:hover {
+    opacity: 1;
+}
+
+.tool-quote-name {
+    font-size: 12px;
+    font-weight: 400;
+    color: rgba(240,237,230,0.4);
+}
+
 /* ——— COMPARISON TOOL ——— */
 .comparison-section {
     padding: 100px 40px;
@@ -1449,6 +1600,17 @@ nav.menu-open .nav-mobile {
     .pricing-grid { grid-template-columns: 1fr; gap: 12px; }
     .pricing-card { padding: 28px 24px; }
     .pricing-actions { flex-direction: column; }
+
+    /* Tools section responsive */
+    .tools-section { padding: 60px 20px; }
+    .tools-grid { gap: 6px; }
+    .tool-card { padding: 10px 12px; }
+    .tool-icon img { height: 26px; width: 26px; }
+    .tool-name { font-size: 11px; }
+    .tool-quote { margin-top: 28px; }
+    .tool-quote-inner { padding: 20px; gap: 12px; }
+    .tool-quote-avatar { width: 34px; height: 34px; }
+    .tool-quote-text { font-size: 13px; }
 
     /* Comparison responsive */
     .comparison-section { padding: 60px 20px; }

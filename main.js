@@ -305,3 +305,45 @@ let compInterval = setInterval(() => {
 document.querySelector('.comparison-tabs').addEventListener('click', () => {
     clearInterval(compInterval);
 });
+
+// ——— Tool slider ———
+const toolQuotes = [
+    "We're in Figma every day all day. This is where a lot of the work takes shape.",
+    "New to our stack and we can't let it go. We've been able to increase our speed by 1.5x and found it really helpful in exploring directions early.",
+    "This is where we run the studio. All of our docs, SOPs, knowledge base, swipe files ... everything. Happy to give a tour if interested!",
+    "We love how fast we can build in Webflow and how user friendly the CMS is for our clients.",
+    "New-ish kid on the block. Super fun (and fast) to prop up a site.",
+    "Really cool tool to record walkthroughs, case study, demo videos, and more.",
+    'Right now I\'m listening to a lot of Fred Again and lo-fi Japanese beats while I work. Outside normal business hours I\'ll be listening to The National, War on Drugs, Vampire Weekend ... that sort of thing. <a href="https://open.spotify.com/playlist/4AmJC57OjAyyNSiTaqEZob?si=1b5e464c2b2246f1" target="_blank">Check out the studio playlist &rarr;</a>'
+];
+const toolCards = document.querySelectorAll('.tool-card');
+const toolQuoteText = document.getElementById('toolQuoteText');
+let activeToolIdx = 0;
+let toolInterval;
+
+function setActiveTool(idx) {
+    activeToolIdx = idx;
+    toolCards.forEach(c => c.classList.remove('active'));
+    toolCards[idx].classList.add('active');
+    toolQuoteText.classList.add('fading');
+    setTimeout(() => {
+        toolQuoteText.innerHTML = toolQuotes[idx];
+        toolQuoteText.classList.remove('fading');
+    }, 250);
+}
+
+function startToolCycle() {
+    toolInterval = setInterval(() => {
+        setActiveTool((activeToolIdx + 1) % toolCards.length);
+    }, 4000);
+}
+
+toolCards.forEach(card => {
+    card.addEventListener('click', () => {
+        clearInterval(toolInterval);
+        setActiveTool(parseInt(card.dataset.tool));
+        startToolCycle();
+    });
+});
+
+startToolCycle();
