@@ -245,80 +245,66 @@ nav.scrolled {
 
 .logo-grid {
     display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 12px;
-    max-width: 1000px;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    max-width: 900px;
     margin: 0 auto;
+}
+
+.logo-row {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
 }
 
 .logo-card {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 12px;
-    padding: 10px 16px;
+    gap: 8px;
+    padding: 12px 16px;
     border-radius: 10px;
-    transition: transform 0.3s;
+    opacity: 0.35;
+    transition: transform 0.3s, opacity 0.3s;
 }
 
 .logo-card:hover {
     transform: translateY(-2px);
-}
-
-.logo-icon {
-    flex-shrink: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    color: var(--ink);
-    opacity: 0.5;
-    transition: color 0.3s, opacity 0.3s;
-}
-
-.logo-card:hover .logo-icon {
     opacity: 1;
 }
 
-/* Brand colors on hover */
-.logo-card:nth-child(1):hover .logo-icon { color: #96BF48; }
-.logo-card:nth-child(2):hover .logo-icon { color: #E50914; }
-.logo-card:nth-child(3):hover .logo-icon { color: #635BFF; }
-.logo-card:nth-child(4):hover .logo-icon { color: #F24E1E; }
-.logo-card:nth-child(5):hover .logo-icon { color: #000000; }
-.logo-card:nth-child(6):hover .logo-icon { color: #5E6AD2; }
-.logo-card:nth-child(7):hover .logo-icon { color: #0061FF; }
-
-.logo-icon svg {
-    width: 28px;
+.logo-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
     height: 28px;
 }
 
-.logo-info {
-    display: flex;
-    flex-direction: column;
-    gap: 1px;
+.logo-icon img {
+    height: 24px;
+    width: auto;
+    max-width: 120px;
+    object-fit: contain;
+    filter: brightness(0);
+    transition: filter 0.3s;
+}
+
+.logo-card:hover .logo-icon img {
+    filter: none;
 }
 
 .logo-metric {
-    font-size: 14px;
+    font-size: 12px;
     font-weight: 400;
     color: var(--ink);
     white-space: nowrap;
-    transition: color 0.3s;
+    text-align: center;
 }
 
 .logo-metric strong {
     font-weight: 500;
 }
-
-/* Brand colors on text hover */
-.logo-card:nth-child(1):hover .logo-metric { color: #96BF48; }
-.logo-card:nth-child(2):hover .logo-metric { color: #E50914; }
-.logo-card:nth-child(3):hover .logo-metric { color: #635BFF; }
-.logo-card:nth-child(4):hover .logo-metric { color: #F24E1E; }
-.logo-card:nth-child(5):hover .logo-metric { color: #000000; }
-.logo-card:nth-child(6):hover .logo-metric { color: #5E6AD2; }
-.logo-card:nth-child(7):hover .logo-metric { color: #0061FF; }
 
 /* ——— ENTRANCE ANIMATIONS ——— */
 .fade-in {
@@ -1096,7 +1082,7 @@ nav.scrolled {
     font-style: italic;
     color: var(--cream);
     line-height: 1.4;
-    max-width: 320px;
+    max-width: 380px;
 }
 
 .final-card--testimonial .t-name {
@@ -1341,10 +1327,10 @@ nav.scrolled {
     .hero-title { font-size: clamp(48px, 12vw, 80px); }
     .hero-device { display: none; }
     .logo-bar { padding: 20px 20px 40px; }
-    .logo-grid { gap: 6px; }
-    .logo-card { padding: 8px 10px; gap: 8px; }
-    .logo-icon svg { width: 22px; height: 22px; }
-    .logo-metric { font-size: 13px; }
+    .logo-row { flex-wrap: wrap; gap: 4px; }
+    .logo-card { padding: 8px 10px; gap: 6px; }
+    .logo-icon img { height: 18px; max-width: 100px; }
+    .logo-metric { font-size: 11px; }
 
     /* Work preview responsive */
     .work-preview { padding: 40px 20px 60px; }
