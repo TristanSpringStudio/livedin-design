@@ -127,9 +127,14 @@ requestAnimationFrame(animateDevices);
 
 // ——— Scroll-fill text ———
 const aboutText = document.getElementById('aboutText');
-const rawText = aboutText.textContent.trim();
-const words = rawText.split(/\s+/);
-aboutText.innerHTML = words.map(w => `<span class="word">${w} </span>`).join('');
+const rawHTML = aboutText.innerHTML.trim();
+const parts = rawHTML.split(/(<br\s*\/?>)+/g);
+const output = parts.map(part => {
+    if (/^<br/.test(part.trim())) return '';
+    if (!part.trim()) return '<span class="word-break"></span>';
+    return part.trim().split(/\s+/).map(w => `<span class="word">${w} </span>`).join('');
+}).join('');
+aboutText.innerHTML = output;
 const wordEls = aboutText.querySelectorAll('.word');
 
 const aboutGlow = document.getElementById('aboutGlow');
