@@ -1,3 +1,20 @@
+// Mobile hamburger menu
+const hamburger = document.getElementById('navHamburger');
+const navMobile = document.getElementById('navMobile');
+
+if (hamburger) {
+    hamburger.addEventListener('click', () => {
+        document.getElementById('nav').classList.toggle('menu-open');
+    });
+
+    // Close menu when a link is tapped
+    navMobile.querySelectorAll('a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('nav').classList.remove('menu-open');
+        });
+    });
+}
+
 // Nav scroll + active section highlighting
 const nav = document.getElementById('nav');
 const navLinks = document.querySelectorAll('.nav-center a');
