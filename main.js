@@ -347,3 +347,17 @@ toolCards.forEach(card => {
 });
 
 startToolCycle();
+
+// Dynamic current month + randomized slot counts (1-3)
+const monthName = new Date().toLocaleString('en-US', { month: 'long' });
+document.querySelectorAll('.current-month').forEach(el => el.textContent = ' ' + monthName);
+
+const retainerCount = Math.floor(Math.random() * 3) + 1;
+let projectCount = Math.floor(Math.random() * 3) + 1;
+while (projectCount === retainerCount) {
+    projectCount = Math.floor(Math.random() * 3) + 1;
+}
+const retainerSlots = document.getElementById('retainerSlots');
+const projectSlots = document.getElementById('projectSlots');
+if (retainerSlots) retainerSlots.querySelector('.slots-count').textContent = retainerCount;
+if (projectSlots) projectSlots.querySelector('.slots-count').textContent = projectCount;

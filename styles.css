@@ -205,7 +205,7 @@ nav.menu-open .nav-mobile {
 
 .nav-cta-online {
     position: absolute;
-    bottom: 0;
+    top: -1px;
     right: -1px;
     width: 8px;
     height: 8px;
@@ -324,6 +324,29 @@ nav.menu-open .nav-mobile {
     width: 18px;
     height: 18px;
     flex-shrink: 0;
+}
+
+.hero-availability {
+    margin-top: 20px;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--warm-gray);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    position: relative;
+    z-index: 2;
+    letter-spacing: 0.01em;
+}
+
+.availability-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: #4ade80;
+    display: inline-block;
+    flex-shrink: 0;
+    box-shadow: 0 0 6px rgba(74, 222, 128, 0.4);
 }
 
 /* ——— HERO DEVICE MOCKUPS ——— */
@@ -806,6 +829,17 @@ nav.menu-open .nav-mobile {
 .pricing-features li .check svg {
     width: 10px;
     height: 10px;
+}
+
+.pricing-availability {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--warm-gray);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 16px;
+    letter-spacing: 0.01em;
 }
 
 .pricing-actions {
