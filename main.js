@@ -353,11 +353,25 @@ const monthName = new Date().toLocaleString('en-US', { month: 'long' });
 document.querySelectorAll('.current-month').forEach(el => el.textContent = ' ' + monthName);
 
 const retainerCount = Math.floor(Math.random() * 3) + 1;
-let projectCount = Math.floor(Math.random() * 3) + 1;
-while (projectCount === retainerCount) {
-    projectCount = Math.floor(Math.random() * 3) + 1;
-}
 const retainerSlots = document.getElementById('retainerSlots');
-const projectSlots = document.getElementById('projectSlots');
 if (retainerSlots) retainerSlots.querySelector('.slots-count').textContent = retainerCount;
-if (projectSlots) projectSlots.querySelector('.slots-count').textContent = projectCount;
+
+// Pricing testimonial slider
+const pricingSlider = document.getElementById('pricingTestimonialSlider');
+if (pricingSlider) {
+    const slides = pricingSlider.querySelectorAll('.pricing-testimonial');
+    const lines = pricingSlider.querySelectorAll('.pricing-testimonial-line');
+    let activeSlide = 0;
+
+    function setPricingSlide(idx) {
+        slides.forEach(s => s.classList.remove('active'));
+        lines.forEach(l => l.classList.remove('active'));
+        slides[idx].classList.add('active');
+        lines[idx].classList.add('active');
+        activeSlide = idx;
+    }
+
+    setInterval(() => {
+        setPricingSlide((activeSlide + 1) % slides.length);
+    }, 5000);
+}
