@@ -352,10 +352,6 @@ startToolCycle();
 const monthName = new Date().toLocaleString('en-US', { month: 'long' });
 document.querySelectorAll('.current-month').forEach(el => el.textContent = ' ' + monthName);
 
-const retainerCount = Math.floor(Math.random() * 3) + 1;
-const retainerSlots = document.getElementById('retainerSlots');
-if (retainerSlots) retainerSlots.querySelector('.slots-count').textContent = retainerCount;
-
 // Pricing testimonial slider
 const pricingSlider = document.getElementById('pricingTestimonialSlider');
 if (pricingSlider) {

@@ -898,6 +898,12 @@ nav.menu-open .nav-mobile {
     flex-shrink: 0;
 }
 
+.pricing-features li .check svg {
+    width: 12px;
+    height: 12px;
+    flex-shrink: 0;
+}
+
 .btn-dark {
     display: inline-flex;
     align-items: center;
