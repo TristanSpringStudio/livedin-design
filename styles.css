@@ -41,8 +41,16 @@ nav.scrolled {
 }
 
 .nav-logo {
-    width: 44px;
-    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    flex-shrink: 0;
+}
+
+.nav-logo-mark {
+    width: 38px;
+    height: 38px;
     background: var(--ink);
     border-radius: 10px;
     display: flex;
@@ -51,9 +59,17 @@ nav.scrolled {
     flex-shrink: 0;
 }
 
-.nav-logo svg {
-    width: 22px;
-    height: 22px;
+.nav-logo-mark svg {
+    width: 20px;
+    height: 20px;
+}
+
+.nav-logo-text {
+    font-family: 'Instrument Serif', serif;
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--ink);
+    letter-spacing: -0.01em;
 }
 
 .nav-center {
@@ -222,7 +238,7 @@ nav.menu-open .nav-mobile {
 
 /* ——— HERO ——— */
 .hero {
-    min-height: 90vh;
+    min-height: 95vh;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -255,7 +271,7 @@ nav.menu-open .nav-mobile {
 
 .hero-title {
     font-family: 'Instrument Serif', serif;
-    font-size: clamp(64px, 10vw, 140px);
+    font-size: clamp(52px, 8vw, 110px);
     font-weight: 400;
     font-style: normal;
     line-height: 0.95;
@@ -365,17 +381,27 @@ nav.menu-open .nav-mobile {
 
 .hero-device--phone {
     width: clamp(70px, 9vw, 120px);
-    left: 16%;
+    left: 10%;
     top: 22%;
-    transition: opacity 0.1s linear;
+    animation: floatPhone 6s ease-in-out infinite;
 }
 
 .hero-device--mac {
     width: clamp(180px, 22vw, 300px);
-    right: 8%;
+    right: 4%;
     bottom: 10%;
     top: auto;
-    transition: opacity 0.1s linear;
+    animation: floatMac 7s ease-in-out infinite;
+}
+
+@keyframes floatPhone {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-10px) rotate(0.5deg); }
+}
+
+@keyframes floatMac {
+    0%, 100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-8px) rotate(-0.3deg); }
 }
 
 /* ——— LOGO BAR ——— */
@@ -1765,9 +1791,10 @@ nav.menu-open .nav-mobile {
     nav { padding: 16px 20px; }
     .nav-center { display: none; }
     .nav-cta { display: none; }
+    .nav-logo-text { display: none; }
     .nav-hamburger { display: flex; }
     .hero { padding: 100px 24px 32px; min-height: 60vh; }
-    .hero-title { font-size: clamp(48px, 12vw, 80px); }
+    .hero-title { font-size: clamp(40px, 10vw, 64px); }
     .hero-device { display: none; }
     .logo-bar { padding: 20px 20px 40px; }
     .logo-row { flex-wrap: wrap; gap: 4px; }
