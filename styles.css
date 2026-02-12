@@ -271,7 +271,7 @@ nav.menu-open .nav-mobile {
 
 .hero-title {
     font-family: 'Instrument Serif', serif;
-    font-size: clamp(52px, 8vw, 110px);
+    font-size: clamp(64px, 10vw, 140px);
     font-weight: 400;
     font-style: normal;
     line-height: 0.95;
@@ -380,23 +380,24 @@ nav.menu-open .nav-mobile {
 }
 
 .hero-device--phone {
-    width: clamp(70px, 9vw, 120px);
-    left: 10%;
-    top: 22%;
+    width: clamp(160px, 20vw, 280px);
+    left: 4%;
+    bottom: 14%;
+    top: auto;
     animation: floatPhone 6s ease-in-out infinite;
 }
 
 .hero-device--mac {
-    width: clamp(180px, 22vw, 300px);
-    right: 4%;
+    width: clamp(189px, 23vw, 315px);
+    right: 1%;
     bottom: 10%;
     top: auto;
     animation: floatMac 7s ease-in-out infinite;
 }
 
 @keyframes floatPhone {
-    0%, 100% { transform: translateY(0) rotate(0deg); }
-    50% { transform: translateY(-10px) rotate(0.5deg); }
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
 }
 
 @keyframes floatMac {
@@ -1794,7 +1795,7 @@ nav.menu-open .nav-mobile {
     .nav-logo-text { display: none; }
     .nav-hamburger { display: flex; }
     .hero { padding: 100px 24px 32px; min-height: 60vh; }
-    .hero-title { font-size: clamp(40px, 10vw, 64px); }
+    .hero-title { font-size: clamp(48px, 12vw, 80px); }
     .hero-device { display: none; }
     .logo-bar { padding: 20px 20px 40px; }
     .logo-row { flex-wrap: wrap; gap: 4px; }
