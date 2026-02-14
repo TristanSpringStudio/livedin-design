@@ -338,9 +338,23 @@ nav.menu-open .nav-mobile {
 }
 
 .hero-cta-icon {
-    width: 18px;
-    height: 18px;
+    width: 22px;
+    height: 22px;
     flex-shrink: 0;
+    transform-origin: 70% 70%;
+}
+
+.hero-cta-btn:hover .hero-cta-icon {
+    animation: wave 1.8s ease-in-out infinite;
+}
+
+@keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    15% { transform: rotate(20deg); }
+    30% { transform: rotate(-15deg); }
+    45% { transform: rotate(18deg); }
+    60% { transform: rotate(-10deg); }
+    75% { transform: rotate(12deg); }
 }
 
 .hero-availability {
@@ -1683,13 +1697,29 @@ nav.menu-open .nav-mobile {
     padding: 80px 40px 48px;
 }
 
-.footer-grid {
+.footer-cta-area {
     max-width: 1200px;
     margin: 0 auto;
-    display: grid;
-    grid-template-columns: 1.4fr 1fr;
-    gap: 60px;
-    align-items: start;
+    text-align: center;
+}
+
+.footer-nav {
+    max-width: 1200px;
+    margin: 48px auto 0;
+    display: flex;
+    justify-content: center;
+    gap: 32px;
+}
+
+.footer-nav a {
+    font-size: 14px;
+    color: rgba(240,237,230,0.5);
+    text-decoration: none;
+    transition: color 0.2s;
+}
+
+.footer-nav a:hover {
+    color: var(--cream);
 }
 
 .footer-cta-title {
@@ -1707,6 +1737,8 @@ nav.menu-open .nav-mobile {
     line-height: 1.6;
     margin-bottom: 28px;
     max-width: 400px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .footer-cta-btn {
@@ -1733,8 +1765,8 @@ nav.menu-open .nav-mobile {
 }
 
 .footer-cta-btn svg {
-    width: 16px;
-    height: 16px;
+    width: 22px;
+    height: 22px;
 }
 
 .footer-links {
@@ -1867,8 +1899,8 @@ nav.menu-open .nav-mobile {
 
     /* Footer responsive */
     .footer { padding: 60px 20px 40px; }
-    .footer-grid { grid-template-columns: 1fr; gap: 40px; }
     .footer-cta-title { font-size: clamp(28px, 8vw, 36px); }
+    .footer-nav { gap: 24px; }
 
     /* Work section responsive */
     .work-layout {
