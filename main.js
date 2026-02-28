@@ -1,3 +1,6 @@
+// Auto-update copyright year
+document.getElementById('copyright-year').textContent = new Date().getFullYear();
+
 // Mobile hamburger menu
 const hamburger = document.getElementById('navHamburger');
 const navMobile = document.getElementById('navMobile');
