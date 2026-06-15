@@ -21,7 +21,7 @@ if (hamburger) {
 // Nav scroll + active section highlighting
 const nav = document.getElementById('nav');
 const navLinks = document.querySelectorAll('.nav-center a');
-const navSections = document.querySelectorAll('#work, #pricing, #faq');
+const navSections = document.querySelectorAll('#about, #work, #pricing, #why, #faq');
 
 function updateNav() {
     nav.classList.toggle('scrolled', window.scrollY > 40);
@@ -72,61 +72,101 @@ if (heroGlow && heroSection) {
     updateHeroGlow();
 }
 
-// Subtle parallax on hero devices
-const hero = document.querySelector('.hero');
-const devices = document.querySelectorAll('.hero-device');
+// ——— Hero deck: snap open into a horizontal work strip on scroll ———
+const heroStage = document.getElementById('heroStage');
+const heroTrack = document.getElementById('heroTrack');
+const heroFeature = heroStage ? heroStage.querySelector('.hero-feature') : null;
+const heroCards = heroStage ? heroStage.querySelectorAll('.hero-work-card') : [];
 
-hero.addEventListener('mousemove', (e) => {
-    const rect = hero.getBoundingClientRect();
-    const x = (e.clientX - rect.left) / rect.width - 0.5;
-    const y = (e.clientY - rect.top) / rect.height - 0.5;
+function layoutHeroDeck() {
+    if (!heroStage || !heroFeature) return;
+    // On mobile the strip is hidden; clear computed offsets.
+    if (window.innerWidth <= 768) {
+        heroTrack.style.removeProperty('--track-x');
+        heroCards.forEach(c => c.style.removeProperty('--closed-x'));
+        return;
+    }
+    // Measure true layout positions with the offset transforms neutralized.
+    heroTrack.style.transition = 'none';
+    heroCards.forEach(c => { c.style.transition = 'none'; });
+    heroTrack.style.setProperty('--track-x', '0px');
+    heroCards.forEach(c => c.style.setProperty('--closed-x', '0px'));
 
-    devices.forEach((dev, i) => {
-        const strength = i === 0 ? 12 : 8;
-        const img = dev.querySelector('img');
-        img.style.transition = 'transform 0.3s ease-out';
-        img.style.transform = `translate(${x * strength}px, ${y * strength}px)`;
+    const fr = heroFeature.getBoundingClientRect();
+    const featCenter = fr.left + fr.width / 2;
+    const trackX = window.innerWidth / 2 - featCenter;
+    const closed = [...heroCards].map(card => {
+        const r = card.getBoundingClientRect();
+        return featCenter - (r.left + r.width / 2);
     });
-});
 
-hero.addEventListener('mouseleave', () => {
-    devices.forEach((dev) => {
-        const img = dev.querySelector('img');
-        img.style.transition = 'transform 0.6s ease-out';
-        img.style.transform = 'translate(0, 0)';
-    });
-});
+    // Apply: center the bull feature, and tuck every card behind it when closed.
+    heroTrack.style.setProperty('--track-x', trackX + 'px');
+    heroCards.forEach((card, i) => card.style.setProperty('--closed-x', closed[i] + 'px'));
 
-// ——— Scroll + bob device animation ———
-const phoneDevice = document.querySelector('.hero-device--phone');
-const macDevice = document.querySelector('.hero-device--mac');
-let startTime = performance.now();
-
-function animateDevices(now) {
-    const elapsed = (now - startTime) / 1000;
-    const scrollY = window.scrollY;
-    const heroHeight = hero.offsetHeight;
-    const progress = Math.min(scrollY / heroHeight, 1);
-
-    // Gentle bob
-    const phoneBob = Math.sin(elapsed * 1.05) * 5;
-    const macBob = Math.sin(elapsed * 0.9 + 1) * 4;
-
-    // Scroll drift
-    const phoneScrollX = -progress * 30;
-    const phoneScrollY = -progress * 60;
-    const macScrollX = progress * 20;
-    const macScrollY = progress * 40;
-    const opacity = Math.max(1 - progress * 1.2, 0);
-
-    phoneDevice.style.transform = `translate(${phoneScrollX}px, ${phoneScrollY + phoneBob}px)`;
-    phoneDevice.style.opacity = opacity;
-    macDevice.style.transform = `translate(${macScrollX}px, ${macScrollY + macBob}px)`;
-    macDevice.style.opacity = opacity;
-
-    requestAnimationFrame(animateDevices);
+    // Commit without animating, then restore transitions for open/close.
+    void heroTrack.offsetWidth;
+    heroTrack.style.transition = '';
+    heroCards.forEach(c => { c.style.transition = ''; });
 }
-requestAnimationFrame(animateDevices);
+
+function updateHeroOpen() {
+    if (!heroStage) return;
+    if (window.innerWidth <= 768) { heroStage.classList.remove('open'); return; }
+    const open = window.scrollY > 40;
+    if (!open && heroTrack) heroTrack.scrollLeft = 0;
+    heroStage.classList.toggle('open', open);
+}
+
+// Pagination + arrows for the horizontal work strip
+const heroDotsEl = document.getElementById('heroDots');
+const heroPrev = document.getElementById('heroPrev');
+const heroNext = document.getElementById('heroNext');
+const heroAllCards = heroStage ? heroStage.querySelectorAll('.hero-feature, .hero-work-card') : [];
+let heroDots = [];
+
+function heroCardStep() {
+    const first = heroStage && heroStage.querySelector('.hero-feature');
+    return first ? first.offsetWidth + 24 : 1;
+}
+
+function buildHeroDots() {
+    if (!heroDotsEl) return;
+    heroDotsEl.innerHTML = '';
+    heroDots = [...heroAllCards].map((_, i) => {
+        const dot = document.createElement('button');
+        dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
+        dot.setAttribute('aria-label', 'Go to work ' + (i + 1));
+        dot.addEventListener('click', () => heroTrack.scrollTo({ left: i * heroCardStep(), behavior: 'smooth' }));
+        heroDotsEl.appendChild(dot);
+        return dot;
+    });
+}
+
+function updateHeroPager() {
+    if (!heroTrack || !heroDots.length) return;
+    const maxScroll = heroTrack.scrollWidth - heroTrack.clientWidth;
+    const atEnd = heroTrack.scrollLeft >= maxScroll - 2;
+    const idx = atEnd
+        ? heroDots.length - 1
+        : Math.max(0, Math.min(heroDots.length - 1, Math.round(heroTrack.scrollLeft / heroCardStep())));
+    heroDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    if (heroPrev) heroPrev.disabled = heroTrack.scrollLeft <= 2;
+    if (heroNext) heroNext.disabled = atEnd;
+}
+
+if (heroStage) {
+    buildHeroDots();
+    layoutHeroDeck();
+    updateHeroOpen();
+    updateHeroPager();
+    if (heroPrev) heroPrev.addEventListener('click', () => heroTrack.scrollBy({ left: -heroCardStep(), behavior: 'smooth' }));
+    if (heroNext) heroNext.addEventListener('click', () => heroTrack.scrollBy({ left: heroCardStep(), behavior: 'smooth' }));
+    heroTrack.addEventListener('scroll', updateHeroPager, { passive: true });
+    window.addEventListener('scroll', updateHeroOpen, { passive: true });
+    window.addEventListener('resize', () => { layoutHeroDeck(); updateHeroOpen(); updateHeroPager(); });
+    window.addEventListener('load', () => { layoutHeroDeck(); updateHeroPager(); });
+}
 
 // ——— Scroll-fill text ———
 const aboutText = document.getElementById('aboutText');
@@ -374,3 +414,15 @@ if (pricingSlider) {
         setPricingSlide((activeSlide + 1) % slides.length);
     }, 5000);
 }
+
+// ——— Stages tabs (scale-ups / startups) ———
+document.querySelectorAll('.stages-tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+        const target = tab.dataset.stage;
+        document.querySelectorAll('.stages-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        document.querySelectorAll('.stages-panel').forEach(panel => {
+            panel.classList.toggle('active', panel.dataset.stage === target);
+        });
+    });
+});
