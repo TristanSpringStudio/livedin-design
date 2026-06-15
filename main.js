@@ -80,34 +80,35 @@ const heroCards = heroStage ? heroStage.querySelectorAll('.hero-work-card') : []
 
 function layoutHeroDeck() {
     if (!heroStage || !heroFeature) return;
+    const cards = heroStage.querySelectorAll('.hero-work-card');
     // On mobile the strip is hidden; clear computed offsets.
     if (window.innerWidth <= 768) {
         heroTrack.style.removeProperty('--track-x');
-        heroCards.forEach(c => c.style.removeProperty('--closed-x'));
+        cards.forEach(c => c.style.removeProperty('--closed-x'));
         return;
     }
     // Measure true layout positions with the offset transforms neutralized.
     heroTrack.style.transition = 'none';
-    heroCards.forEach(c => { c.style.transition = 'none'; });
+    cards.forEach(c => { c.style.transition = 'none'; });
     heroTrack.style.setProperty('--track-x', '0px');
-    heroCards.forEach(c => c.style.setProperty('--closed-x', '0px'));
+    cards.forEach(c => c.style.setProperty('--closed-x', '0px'));
 
     const fr = heroFeature.getBoundingClientRect();
     const featCenter = fr.left + fr.width / 2;
     const trackX = window.innerWidth / 2 - featCenter;
-    const closed = [...heroCards].map(card => {
+    const closed = [...cards].map(card => {
         const r = card.getBoundingClientRect();
         return featCenter - (r.left + r.width / 2);
     });
 
     // Apply: center the bull feature, and tuck every card behind it when closed.
     heroTrack.style.setProperty('--track-x', trackX + 'px');
-    heroCards.forEach((card, i) => card.style.setProperty('--closed-x', closed[i] + 'px'));
+    cards.forEach((card, i) => card.style.setProperty('--closed-x', closed[i] + 'px'));
 
     // Commit without animating, then restore transitions for open/close.
     void heroTrack.offsetWidth;
     heroTrack.style.transition = '';
-    heroCards.forEach(c => { c.style.transition = ''; });
+    cards.forEach(c => { c.style.transition = ''; });
 }
 
 function updateHeroOpen() {
@@ -130,6 +131,39 @@ function heroCardStep() {
     return first ? first.offsetWidth + 24 : 1;
 }
 
+// Looping: clone the set once so the strip can wrap seamlessly
+let heroOriginalCount = 0;
+function setupHeroLoop() {
+    if (!heroTrack || heroTrack.dataset.looped) return;
+    const originals = [...heroTrack.children];
+    heroOriginalCount = originals.length;
+    originals.forEach(card => {
+        const clone = card.cloneNode(true);
+        clone.classList.remove('hero-feature');
+        clone.classList.add('hero-work-card');
+        clone.setAttribute('aria-hidden', 'true');
+        clone.removeAttribute('id');
+        heroTrack.appendChild(clone);
+    });
+    heroTrack.dataset.looped = '1';
+}
+
+function heroLoopCycle() {
+    return heroOriginalCount * heroCardStep();
+}
+
+// Snap scrollLeft back by one cycle once a (non-drag) scroll settles past the end
+function normalizeHeroLoop() {
+    if (heroTrack.classList.contains('dragging')) return;
+    const cycle = heroLoopCycle();
+    if (cycle > 0 && heroTrack.scrollLeft >= cycle) {
+        const prev = heroTrack.style.scrollBehavior;
+        heroTrack.style.scrollBehavior = 'auto';
+        heroTrack.scrollLeft -= cycle;
+        heroTrack.style.scrollBehavior = prev;
+    }
+}
+
 function buildHeroDots() {
     if (!heroDotsEl) return;
     heroDotsEl.innerHTML = '';
@@ -145,24 +179,29 @@ function buildHeroDots() {
 
 function updateHeroPager() {
     if (!heroTrack || !heroDots.length) return;
-    const maxScroll = heroTrack.scrollWidth - heroTrack.clientWidth;
-    const atEnd = heroTrack.scrollLeft >= maxScroll - 2;
-    const idx = atEnd
-        ? heroDots.length - 1
-        : Math.max(0, Math.min(heroDots.length - 1, Math.round(heroTrack.scrollLeft / heroCardStep())));
+    const count = heroOriginalCount || heroDots.length;
+    const raw = Math.round(heroTrack.scrollLeft / heroCardStep());
+    const idx = ((raw % count) + count) % count;
     heroDots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    // Looping: forward always available; backward bounded at the start
     if (heroPrev) heroPrev.disabled = heroTrack.scrollLeft <= 2;
-    if (heroNext) heroNext.disabled = atEnd;
+    if (heroNext) heroNext.disabled = false;
 }
 
+let heroScrollIdle;
 if (heroStage) {
+    setupHeroLoop();
     buildHeroDots();
     layoutHeroDeck();
     updateHeroOpen();
     updateHeroPager();
     if (heroPrev) heroPrev.addEventListener('click', () => heroTrack.scrollBy({ left: -heroCardStep(), behavior: 'smooth' }));
     if (heroNext) heroNext.addEventListener('click', () => heroTrack.scrollBy({ left: heroCardStep(), behavior: 'smooth' }));
-    heroTrack.addEventListener('scroll', updateHeroPager, { passive: true });
+    heroTrack.addEventListener('scroll', () => {
+        updateHeroPager();
+        clearTimeout(heroScrollIdle);
+        heroScrollIdle = setTimeout(normalizeHeroLoop, 140);
+    }, { passive: true });
     window.addEventListener('scroll', updateHeroOpen, { passive: true });
     window.addEventListener('resize', () => { layoutHeroDeck(); updateHeroOpen(); updateHeroPager(); });
     window.addEventListener('load', () => { layoutHeroDeck(); updateHeroPager(); });
@@ -207,6 +246,12 @@ if (heroStage && heroTrack) {
         const dx = e.clientX - startX;
         if (Math.abs(dx) > 4) moved = true;
         heroTrack.scrollLeft = startScroll - dx;
+        // Loop seamlessly: when we scroll past one full set, shift the reference back
+        const cycle = heroLoopCycle();
+        if (cycle > 0 && heroTrack.scrollLeft >= cycle) {
+            startScroll -= cycle;
+            heroTrack.scrollLeft = startScroll - dx;
+        }
     });
 
     const stopDrag = (e) => {
