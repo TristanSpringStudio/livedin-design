@@ -382,7 +382,7 @@ nav.menu-open .nav-mobile {
 /* ——— HERO STAGE: BULL FEATURE + HORIZONTAL WORK STRIP ——— */
 .hero-stage {
     position: relative;
-    width: 100%;
+    width: 100vw;
     margin-top: 36px;
     z-index: 1;
 }
@@ -405,12 +405,48 @@ nav.menu-open .nav-mobile {
 .hero-stage.open .hero-track {
     overflow-x: auto;
     transform: translateX(0);
-    cursor: grab;
+    cursor: none;
 }
 
-.hero-track.dragging {
-    cursor: grabbing;
+.hero-stage.open .hero-track.dragging {
+    cursor: none;
     scroll-behavior: auto;
+}
+
+.hero-cursor {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 60;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 11px 16px;
+    background: var(--ink);
+    color: var(--cream);
+    border-radius: 999px;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+    pointer-events: none;
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.6);
+    transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.hero-cursor.visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.hero-cursor.grabbing {
+    transform: translate(-50%, -50%) scale(0.9);
+}
+
+.hero-cursor svg {
+    width: 13px;
+    height: 13px;
 }
 
 .hero-track.dragging .hero-feature,

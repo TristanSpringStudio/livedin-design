@@ -168,9 +168,27 @@ if (heroStage) {
     window.addEventListener('load', () => { layoutHeroDeck(); updateHeroPager(); });
 }
 
-// Drag-to-scroll the hero work strip (mouse; touch scrolls natively)
+// Drag-to-scroll + custom "View work" cursor for the hero work strip (mouse)
 if (heroStage && heroTrack) {
+    const heroCursor = document.getElementById('heroCursor');
     let down = false, startX = 0, startScroll = 0, moved = false;
+
+    const moveCursor = (e) => {
+        if (!heroCursor) return;
+        heroCursor.style.left = e.clientX + 'px';
+        heroCursor.style.top = e.clientY + 'px';
+    };
+
+    heroTrack.addEventListener('pointerenter', (e) => {
+        if (e.pointerType === 'mouse' && heroStage.classList.contains('open') && heroCursor) {
+            moveCursor(e);
+            heroCursor.classList.add('visible');
+        }
+    });
+
+    heroTrack.addEventListener('pointerleave', () => {
+        if (heroCursor) heroCursor.classList.remove('visible');
+    });
 
     heroTrack.addEventListener('pointerdown', (e) => {
         if (e.pointerType !== 'mouse' || !heroStage.classList.contains('open')) return;
@@ -179,10 +197,12 @@ if (heroStage && heroTrack) {
         startX = e.clientX;
         startScroll = heroTrack.scrollLeft;
         heroTrack.classList.add('dragging');
+        if (heroCursor) heroCursor.classList.add('grabbing');
         heroTrack.setPointerCapture(e.pointerId);
     });
 
     heroTrack.addEventListener('pointermove', (e) => {
+        moveCursor(e);
         if (!down) return;
         const dx = e.clientX - startX;
         if (Math.abs(dx) > 4) moved = true;
@@ -193,17 +213,24 @@ if (heroStage && heroTrack) {
         if (!down) return;
         down = false;
         heroTrack.classList.remove('dragging');
+        if (heroCursor) heroCursor.classList.remove('grabbing');
         if (e.pointerId != null && heroTrack.hasPointerCapture(e.pointerId)) {
             heroTrack.releasePointerCapture(e.pointerId);
+        }
+        if (moved) {
+            // Snap to the nearest work card
+            const step = heroCardStep();
+            heroTrack.scrollTo({ left: Math.round(heroTrack.scrollLeft / step) * step, behavior: 'smooth' });
+        } else {
+            // Clean click → open the work example under the cursor
+            const el = document.elementFromPoint(e.clientX, e.clientY);
+            const card = el && el.closest('.hero-feature, .hero-work-card');
+            const href = card && card.getAttribute('href');
+            if (href) window.location.hash = href;
         }
     };
     heroTrack.addEventListener('pointerup', stopDrag);
     heroTrack.addEventListener('pointercancel', stopDrag);
-
-    // Don't navigate to the work example if the user was dragging
-    heroTrack.querySelectorAll('a').forEach(a => {
-        a.addEventListener('click', (e) => { if (moved) { e.preventDefault(); moved = false; } });
-    });
 
     // Block the browser's native image ghost-drag
     heroTrack.addEventListener('dragstart', (e) => e.preventDefault());
