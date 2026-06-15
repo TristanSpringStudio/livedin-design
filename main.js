@@ -432,6 +432,23 @@ toolCards.forEach(card => {
 
 startToolCycle();
 
+// Testimonials carousel — duplicate each track for a seamless marquee loop
+document.querySelectorAll('.testimonials-track').forEach(track => {
+    track.innerHTML += track.innerHTML;
+});
+
+// Slow (don't stop) the marquee on hover
+const testimonialsCarousel = document.querySelector('.testimonials-carousel');
+if (testimonialsCarousel) {
+    const setMarqueeRate = (rate) => {
+        testimonialsCarousel.querySelectorAll('.testimonials-track').forEach(track => {
+            track.getAnimations().forEach(a => { a.playbackRate = rate; });
+        });
+    };
+    testimonialsCarousel.addEventListener('mouseenter', () => setMarqueeRate(0.2));
+    testimonialsCarousel.addEventListener('mouseleave', () => setMarqueeRate(1));
+}
+
 // Dynamic current month + randomized slot counts (1-3)
 const monthName = new Date().toLocaleString('en-US', { month: 'long' });
 document.querySelectorAll('.current-month').forEach(el => el.textContent = ' ' + monthName);
