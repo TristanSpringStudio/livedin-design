@@ -168,6 +168,47 @@ if (heroStage) {
     window.addEventListener('load', () => { layoutHeroDeck(); updateHeroPager(); });
 }
 
+// Drag-to-scroll the hero work strip (mouse; touch scrolls natively)
+if (heroStage && heroTrack) {
+    let down = false, startX = 0, startScroll = 0, moved = false;
+
+    heroTrack.addEventListener('pointerdown', (e) => {
+        if (e.pointerType !== 'mouse' || !heroStage.classList.contains('open')) return;
+        down = true;
+        moved = false;
+        startX = e.clientX;
+        startScroll = heroTrack.scrollLeft;
+        heroTrack.classList.add('dragging');
+        heroTrack.setPointerCapture(e.pointerId);
+    });
+
+    heroTrack.addEventListener('pointermove', (e) => {
+        if (!down) return;
+        const dx = e.clientX - startX;
+        if (Math.abs(dx) > 4) moved = true;
+        heroTrack.scrollLeft = startScroll - dx;
+    });
+
+    const stopDrag = (e) => {
+        if (!down) return;
+        down = false;
+        heroTrack.classList.remove('dragging');
+        if (e.pointerId != null && heroTrack.hasPointerCapture(e.pointerId)) {
+            heroTrack.releasePointerCapture(e.pointerId);
+        }
+    };
+    heroTrack.addEventListener('pointerup', stopDrag);
+    heroTrack.addEventListener('pointercancel', stopDrag);
+
+    // Don't navigate to the work example if the user was dragging
+    heroTrack.querySelectorAll('a').forEach(a => {
+        a.addEventListener('click', (e) => { if (moved) { e.preventDefault(); moved = false; } });
+    });
+
+    // Block the browser's native image ghost-drag
+    heroTrack.addEventListener('dragstart', (e) => e.preventDefault());
+}
+
 // ——— Scroll-fill text ———
 const aboutText = document.getElementById('aboutText');
 const rawHTML = aboutText.innerHTML.trim();

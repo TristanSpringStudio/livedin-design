@@ -405,6 +405,23 @@ nav.menu-open .nav-mobile {
 .hero-stage.open .hero-track {
     overflow-x: auto;
     transform: translateX(0);
+    cursor: grab;
+}
+
+.hero-track.dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+.hero-track.dragging .hero-feature,
+.hero-track.dragging .hero-work-card {
+    pointer-events: none;
+}
+
+.hero-feature img,
+.hero-work-card img {
+    -webkit-user-drag: none;
+    user-select: none;
 }
 
 .hero-feature,
@@ -412,9 +429,9 @@ nav.menu-open .nav-mobile {
     flex: 0 0 auto;
     position: relative;
     display: block;
-    width: clamp(390px, 52vw, 688px);
+    width: clamp(440px, 60vw, 820px);
     aspect-ratio: 4 / 3;
-    border-radius: 16px;
+    border-radius: 6px;
     overflow: hidden;
 }
 
@@ -892,7 +909,7 @@ nav.menu-open .nav-mobile {
 
 .pricing-card {
     background: var(--ink);
-    border-radius: 16px;
+    border-radius: 6px;
     display: grid;
     grid-template-columns: 1fr 1fr;
     overflow: hidden;
@@ -1143,7 +1160,7 @@ nav.menu-open .nav-mobile {
 .pricing-testimonial {
     padding: 20px;
     background: rgba(240, 237, 230, 0.05);
-    border-radius: 12px;
+    border-radius: 6px;
     border: 1px solid rgba(240, 237, 230, 0.08);
     position: absolute;
     top: 0;
@@ -1793,7 +1810,7 @@ nav.menu-open .nav-mobile {
 
 .book-embed {
     min-height: 600px;
-    border-radius: 16px;
+    border-radius: 6px;
     overflow: hidden;
 }
 
@@ -1972,7 +1989,7 @@ nav.menu-open .nav-mobile {
 
 .skill-card {
     border: 1px solid var(--light-gray);
-    border-radius: 16px;
+    border-radius: 6px;
     padding: 32px;
     background: rgba(255, 255, 255, 0.35);
     transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
@@ -2114,7 +2131,7 @@ nav.menu-open .nav-mobile {
     gap: 1px;
     background: rgba(240, 237, 230, 0.12);
     border: 1px solid rgba(240, 237, 230, 0.12);
-    border-radius: 16px;
+    border-radius: 6px;
     overflow: hidden;
 }
 
@@ -2214,7 +2231,7 @@ nav.menu-open .nav-mobile {
 .why-pillar {
     padding: 32px;
     border: 1px solid var(--light-gray);
-    border-radius: 16px;
+    border-radius: 6px;
     background: rgba(255, 255, 255, 0.35);
 }
 
@@ -2250,35 +2267,35 @@ nav.menu-open .nav-mobile {
 }
 
 .why-testimonial {
-    padding: 32px;
-    border-radius: 16px;
+    padding: 24px;
+    border-radius: 6px;
     background: var(--ink);
+    border: 1px solid rgba(240, 237, 230, 0.08);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
-    gap: 24px;
+    gap: 14px;
 }
 
 .why-quote {
-    font-family: 'Instrument Serif', serif;
-    font-size: 19px;
+    font-size: 13px;
     font-style: italic;
-    line-height: 1.45;
-    color: var(--cream);
+    line-height: 1.6;
+    color: rgba(240, 237, 230, 0.6);
 }
 
 .why-author {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 8px;
 }
 
 .why-avatar {
-    width: 36px;
-    height: 36px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
+    background: rgba(240, 237, 230, 0.1);
 }
 
 .why-avatar img {
@@ -2288,8 +2305,118 @@ nav.menu-open .nav-mobile {
 }
 
 .why-name {
+    font-size: 12px;
+    color: rgba(240, 237, 230, 0.4);
+}
+
+/* ——— CAREERS ——— */
+.careers-section {
+    padding: 100px 40px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.careers-header {
+    max-width: 720px;
+    margin: 0 auto 48px;
+    text-align: center;
+}
+
+.careers-label {
     font-size: 13px;
-    color: rgba(240, 237, 230, 0.5);
+    font-weight: 500;
+    color: var(--warm-gray);
+    letter-spacing: 0.04em;
+    margin-bottom: 12px;
+}
+
+.careers-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(32px, 4vw, 48px);
+    font-weight: 400;
+    color: var(--ink);
+    line-height: 1.1;
+    margin-bottom: 16px;
+}
+
+.careers-sub {
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--warm-gray);
+}
+
+.careers-grid {
+    max-width: 900px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.career-card {
+    display: flex;
+    flex-direction: column;
+    padding: 32px;
+    border: 1px solid var(--light-gray);
+    border-radius: 6px;
+    background: rgba(255, 255, 255, 0.4);
+    text-decoration: none;
+    transition: transform 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.career-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--mid-gray);
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.06);
+}
+
+.career-card-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.career-role {
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px;
+    font-weight: 400;
+    color: var(--ink);
+}
+
+.career-arrow {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--light-gray);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--ink);
+    flex-shrink: 0;
+    transition: background 0.25s ease, color 0.25s ease, transform 0.25s ease;
+}
+
+.career-arrow svg { width: 15px; height: 15px; }
+
+.career-card:hover .career-arrow {
+    background: var(--ink);
+    color: var(--cream);
+    transform: translate(2px, -2px);
+}
+
+.career-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--warm-gray);
+    margin-bottom: 20px;
+}
+
+.career-email {
+    margin-top: auto;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--ink);
 }
 
 /* Collapse to hamburger earlier so the 5-item nav never crowds the logo/CTA */
@@ -2399,6 +2526,10 @@ nav.menu-open .nav-mobile {
     .why-header { margin-bottom: 36px; }
     .why-pillars { grid-template-columns: 1fr; }
     .why-testimonials { grid-template-columns: 1fr; }
+
+    /* Careers responsive */
+    .careers-section { padding: 60px 20px; }
+    .careers-grid { grid-template-columns: 1fr; }
 
     /* Work section responsive */
     .work-layout {
