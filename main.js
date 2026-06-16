@@ -325,39 +325,6 @@ function updateTextFill() {
 window.addEventListener('scroll', updateTextFill, { passive: true });
 updateTextFill();
 
-// ——— Work TOC active state ———
-const tocLinks = document.querySelectorAll('.work-toc a');
-const projects = document.querySelectorAll('.work-project');
-
-function updateToc() {
-    let currentProject = null;
-
-    projects.forEach(p => {
-        const rect = p.getBoundingClientRect();
-        if (rect.top < window.innerHeight * 0.4) {
-            currentProject = p.dataset.project;
-        }
-    });
-
-    tocLinks.forEach(link => {
-        link.classList.toggle('active', link.dataset.project === currentProject);
-    });
-}
-
-window.addEventListener('scroll', updateToc, { passive: true });
-updateToc();
-
-// Smooth scroll for TOC links
-tocLinks.forEach(link => {
-    link.addEventListener('click', (e) => {
-        e.preventDefault();
-        const target = document.querySelector(link.getAttribute('href'));
-        if (target) {
-            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-    });
-});
-
 // ——— FAQ accordion ———
 document.querySelectorAll('.faq-question').forEach(btn => {
     btn.addEventListener('click', () => {
