@@ -545,14 +545,3 @@ if (pricingSlider) {
     }, 5000);
 }
 
-// ——— Stages tabs (scale-ups / startups) ———
-document.querySelectorAll('.stages-tab').forEach(tab => {
-    tab.addEventListener('click', () => {
-        const target = tab.dataset.stage;
-        document.querySelectorAll('.stages-tab').forEach(t => t.classList.remove('active'));
-        tab.classList.add('active');
-        document.querySelectorAll('.stages-panel').forEach(panel => {
-            panel.classList.toggle('active', panel.dataset.stage === target);
-        });
-    });
-});
