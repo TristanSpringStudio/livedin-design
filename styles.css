@@ -2062,6 +2062,20 @@ nav.menu-open .nav-mobile {
     max-width: 320px;
 }
 
+/* Dark variant (How we work) */
+.skills-section--dark {
+    background: var(--ink);
+    border-top: none;
+}
+
+.skills-section--dark .skills-label { color: rgba(240, 237, 230, 0.5); }
+.skills-section--dark .skills-title { color: var(--cream); }
+.skills-section--dark .skills-grid { background: rgba(240, 237, 230, 0.12); }
+.skills-section--dark .skill-card { background: var(--ink); }
+.skills-section--dark .skill-icon { color: var(--cream); }
+.skills-section--dark .skill-name { color: var(--cream); }
+.skills-section--dark .skill-desc { color: rgba(240, 237, 230, 0.55); }
+
 /* ——— WHY LIVED IN ——— */
 .why-section {
     padding: 100px 40px;
