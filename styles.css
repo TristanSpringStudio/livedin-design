@@ -408,6 +408,12 @@ nav.menu-open .nav-mobile {
     cursor: none;
 }
 
+/* Hide the native cursor over the whole strip so only the "View work" pill shows */
+.hero-stage.open .hero-track,
+.hero-stage.open .hero-track * {
+    cursor: none;
+}
+
 .hero-stage.open .hero-track.dragging {
     cursor: none;
     scroll-behavior: auto;
@@ -2020,32 +2026,19 @@ nav.menu-open .nav-mobile {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 1px;
+    background: var(--light-gray);
 }
 
 .skill-card {
-    border: 1px solid var(--light-gray);
-    border-radius: 6px;
-    padding: 32px;
-    background: rgba(255, 255, 255, 0.35);
-    transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
-}
-
-.skill-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--mid-gray);
-    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.06);
+    padding: 40px;
+    background: var(--cream);
 }
 
 .skill-icon {
     color: var(--ink);
     opacity: 0.85;
     margin-bottom: 28px;
-    transition: transform 0.4s ease;
-}
-
-.skill-card:hover .skill-icon {
-    transform: translateY(-2px);
 }
 
 .skill-icon svg {
@@ -2166,9 +2159,6 @@ nav.menu-open .nav-mobile {
     grid-template-columns: repeat(2, 1fr);
     gap: 1px;
     background: rgba(240, 237, 230, 0.12);
-    border: 1px solid rgba(240, 237, 230, 0.12);
-    border-radius: 6px;
-    overflow: hidden;
 }
 
 .stages-row {
@@ -2261,14 +2251,13 @@ nav.menu-open .nav-mobile {
     margin: 0 auto;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
-    gap: 16px;
+    gap: 1px;
+    background: var(--light-gray);
 }
 
 .why-pillar {
-    padding: 32px;
-    border: 1px solid var(--light-gray);
-    border-radius: 6px;
-    background: rgba(255, 255, 255, 0.35);
+    padding: 40px;
+    background: var(--cream);
 }
 
 .why-pillar-num {
@@ -2656,7 +2645,7 @@ nav.menu-open .nav-mobile {
     /* Skills section responsive */
     .skills-section { padding: 60px 20px; }
     .skills-header { margin-bottom: 36px; }
-    .skills-grid { grid-template-columns: 1fr; gap: 12px; }
+    .skills-grid { grid-template-columns: 1fr; gap: 1px; }
     .skill-card { padding: 28px; }
     .skill-icon svg { width: 64px; height: 64px; }
 
