@@ -283,7 +283,7 @@ nav.menu-open .nav-mobile {
 }
 
 .hero-title em {
-    font-style: italic;
+    font-style: normal;
 }
 
 .hero-subtitle {
@@ -765,7 +765,7 @@ nav.menu-open .nav-mobile {
     color: var(--cream);
     line-height: 1.4;
     max-width: 380px;
-    font-style: italic;
+    font-style: normal;
 }
 
 .testimonial-attr {
@@ -856,7 +856,7 @@ nav.menu-open .nav-mobile {
 .work-toc a {
     font-family: 'Instrument Serif', serif;
     font-size: 18px;
-    font-style: italic;
+    font-style: normal;
     color: var(--ink);
     text-decoration: none;
     opacity: 0.3;
@@ -1002,7 +1002,7 @@ nav.menu-open .nav-mobile {
     font-family: 'Instrument Serif', serif;
     font-size: clamp(24px, 3vw, 28px);
     font-weight: 400;
-    font-style: italic;
+    font-style: normal;
     color: var(--cream);
     margin-bottom: 8px;
 }
@@ -1252,7 +1252,7 @@ nav.menu-open .nav-mobile {
     color: rgba(240, 237, 230, 0.6);
     line-height: 1.6;
     margin-bottom: 12px;
-    font-style: italic;
+    font-style: normal;
 }
 
 .pricing-testimonial-author {
@@ -1726,7 +1726,7 @@ nav.menu-open .nav-mobile {
     font-family: 'Instrument Serif', serif;
     font-size: clamp(18px, 2vw, 22px);
     font-weight: 400;
-    font-style: italic;
+    font-style: normal;
     color: var(--cream);
     line-height: 1.4;
     max-width: 380px;
@@ -2064,7 +2064,7 @@ nav.menu-open .nav-mobile {
     line-height: 1.1;
 }
 
-.skills-title em { font-style: italic; }
+.skills-title em { font-style: normal; }
 
 .skills-grid {
     max-width: 1200px;
@@ -2149,7 +2149,7 @@ nav.menu-open .nav-mobile {
     line-height: 1.1;
 }
 
-.why-title em { font-style: italic; }
+.why-title em { font-style: normal; }
 
 .why-pillars {
     max-width: 1200px;
@@ -2305,8 +2305,7 @@ nav.menu-open .nav-mobile {
     margin-right: 16px;
     padding: 32px;
     border-radius: 6px;
-    background: var(--ink);
-    border: 1px solid rgba(240, 237, 230, 0.08);
+    background: #E8E4DA;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -2321,7 +2320,7 @@ nav.menu-open .nav-mobile {
 .t-card-quote {
     font-size: 16px;
     line-height: 1.6;
-    color: rgba(240, 237, 230, 0.85);
+    color: #2A2925;
 }
 
 .t-card-author {
@@ -2336,7 +2335,7 @@ nav.menu-open .nav-mobile {
     border-radius: 50%;
     overflow: hidden;
     flex-shrink: 0;
-    background: rgba(240, 237, 230, 0.1);
+    background: #D8D3C8;
 }
 
 .t-card-avatar img {
@@ -2347,7 +2346,7 @@ nav.menu-open .nav-mobile {
 
 .t-card-name {
     font-size: 14px;
-    color: rgba(240, 237, 230, 0.5);
+    color: var(--warm-gray);
 }
 
 /* ——— CAREERS ——— */
