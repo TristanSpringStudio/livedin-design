@@ -472,7 +472,7 @@ nav.menu-open .nav-mobile {
     position: relative;
     display: block;
     width: clamp(440px, 60vw, 820px);
-    aspect-ratio: 4 / 3;
+    aspect-ratio: 4000 / 2480;
     border-radius: 6px;
     overflow: hidden;
 }
