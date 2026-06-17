@@ -171,7 +171,7 @@ function buildHeroDots() {
         const dot = document.createElement('button');
         dot.className = 'hero-dot' + (i === 0 ? ' active' : '');
         dot.setAttribute('aria-label', 'Go to work ' + (i + 1));
-        dot.addEventListener('click', () => heroTrack.scrollTo({ left: i * heroCardStep(), behavior: 'smooth' }));
+        dot.addEventListener('click', () => { pauseHeroAuto(900); heroTrack.scrollTo({ left: i * heroCardStep(), behavior: 'smooth' }); });
         heroDotsEl.appendChild(dot);
         return dot;
     });
@@ -188,6 +188,38 @@ function updateHeroPager() {
     if (heroNext) heroNext.disabled = false;
 }
 
+// ——— Hero strip: slow auto-scroll once open, crawl on hover ———
+let heroHovering = false;
+let heroAutoPos = null;
+let heroAutoPaused = false;
+let heroAutoPauseTimer;
+
+function pauseHeroAuto(ms) {
+    heroAutoPaused = true;
+    heroAutoPos = null;
+    clearTimeout(heroAutoPauseTimer);
+    heroAutoPauseTimer = setTimeout(() => { heroAutoPaused = false; }, ms);
+}
+
+function heroAutoScroll() {
+    if (heroStage && heroTrack) {
+        const dragging = heroTrack.classList.contains('dragging');
+        const active = heroStage.classList.contains('open') && !dragging && !heroAutoPaused && window.innerWidth > 768;
+        const r = active ? heroStage.getBoundingClientRect() : null;
+        if (r && r.bottom > 0 && r.top < window.innerHeight) {
+            if (heroAutoPos === null) heroAutoPos = heroTrack.scrollLeft;
+            heroAutoPos += heroHovering ? 0.1 : 0.6;
+            const cycle = heroLoopCycle();
+            if (cycle > 0 && heroAutoPos >= cycle) heroAutoPos -= cycle;
+            heroTrack.scrollLeft = heroAutoPos;
+        } else if (!dragging) {
+            heroAutoPos = null;
+        }
+    }
+    requestAnimationFrame(heroAutoScroll);
+}
+if (heroStage && heroTrack) requestAnimationFrame(heroAutoScroll);
+
 let heroScrollIdle;
 if (heroStage) {
     setupHeroLoop();
@@ -195,8 +227,8 @@ if (heroStage) {
     layoutHeroDeck();
     updateHeroOpen();
     updateHeroPager();
-    if (heroPrev) heroPrev.addEventListener('click', () => heroTrack.scrollBy({ left: -heroCardStep(), behavior: 'smooth' }));
-    if (heroNext) heroNext.addEventListener('click', () => heroTrack.scrollBy({ left: heroCardStep(), behavior: 'smooth' }));
+    if (heroPrev) heroPrev.addEventListener('click', () => { pauseHeroAuto(900); heroTrack.scrollBy({ left: -heroCardStep(), behavior: 'smooth' }); });
+    if (heroNext) heroNext.addEventListener('click', () => { pauseHeroAuto(900); heroTrack.scrollBy({ left: heroCardStep(), behavior: 'smooth' }); });
     heroTrack.addEventListener('scroll', () => {
         updateHeroPager();
         clearTimeout(heroScrollIdle);
@@ -219,13 +251,16 @@ if (heroStage && heroTrack) {
     };
 
     heroTrack.addEventListener('pointerenter', (e) => {
-        if (e.pointerType === 'mouse' && heroStage.classList.contains('open') && heroCursor) {
+        if (e.pointerType !== 'mouse') return;
+        heroHovering = true;
+        if (heroStage.classList.contains('open') && heroCursor) {
             moveCursor(e);
             heroCursor.classList.add('visible');
         }
     });
 
     heroTrack.addEventListener('pointerleave', () => {
+        heroHovering = false;
         if (heroCursor) heroCursor.classList.remove('visible');
     });
 
@@ -263,8 +298,9 @@ if (heroStage && heroTrack) {
             heroTrack.releasePointerCapture(e.pointerId);
         }
         if (moved) {
-            // Snap to the nearest work card
+            // Snap to the nearest work card, then let auto-scroll resume
             const step = heroCardStep();
+            pauseHeroAuto(900);
             heroTrack.scrollTo({ left: Math.round(heroTrack.scrollLeft / step) * step, behavior: 'smooth' });
         } else {
             // Clean click → open the work example under the cursor
