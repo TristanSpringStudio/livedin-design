@@ -113,10 +113,9 @@ function layoutHeroDeck() {
 
 function updateHeroOpen() {
     if (!heroStage) return;
+    // Desktop: the deck fans open on page load (not on scroll). Mobile: stays closed.
     if (window.innerWidth <= 768) { heroStage.classList.remove('open'); return; }
-    const open = window.scrollY > 40;
-    if (!open && heroTrack) heroTrack.scrollLeft = 0;
-    heroStage.classList.toggle('open', open);
+    heroStage.classList.add('open');
 }
 
 // Pagination + arrows for the horizontal work strip
@@ -225,7 +224,8 @@ if (heroStage) {
     setupHeroLoop();
     buildHeroDots();
     layoutHeroDeck();
-    updateHeroOpen();
+    // Paint the closed deck for one frame, then fan it open so the load-in animates.
+    requestAnimationFrame(() => requestAnimationFrame(updateHeroOpen));
     updateHeroPager();
     if (heroPrev) heroPrev.addEventListener('click', () => { pauseHeroAuto(900); heroTrack.scrollBy({ left: -heroCardStep(), behavior: 'smooth' }); });
     if (heroNext) heroNext.addEventListener('click', () => { pauseHeroAuto(900); heroTrack.scrollBy({ left: heroCardStep(), behavior: 'smooth' }); });
@@ -234,7 +234,6 @@ if (heroStage) {
         clearTimeout(heroScrollIdle);
         heroScrollIdle = setTimeout(normalizeHeroLoop, 140);
     }, { passive: true });
-    window.addEventListener('scroll', updateHeroOpen, { passive: true });
     window.addEventListener('resize', () => { layoutHeroDeck(); updateHeroOpen(); updateHeroPager(); });
     window.addEventListener('load', () => { layoutHeroDeck(); updateHeroPager(); });
 }

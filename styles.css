@@ -217,6 +217,8 @@ nav.menu-open .nav-mobile {
     height: 100%;
     border-radius: 50%;
     object-fit: cover;
+    object-position: center 22%;
+    filter: brightness(1.08);
 }
 
 .nav-cta-online {
